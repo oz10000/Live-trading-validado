@@ -1,0 +1,39 @@
+name: Crypto Live Scanner
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/3 * * * *"
+
+jobs:
+  run-bot:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy requests ccxt
+
+      - name: Run trading scanner
+        run: |
+          python main.py
+
+      - name: Save logs
+        run: |
+          echo "Run completed at $(date)" >> bot_log.txt
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: bot-logs
+          path: bot_log.txt
