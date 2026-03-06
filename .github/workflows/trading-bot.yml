@@ -26,7 +26,7 @@ jobs:
 
       - name: Run trading scanner
         run: |
-          python main.py
+          python bot.py
 
       - name: Save logs
         run: |
